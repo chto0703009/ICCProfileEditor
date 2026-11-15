@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+build/
+dist/
+*.spec
+*.app/
+
+.DS_Store
+*.dmg
+*.dmg.sha256
