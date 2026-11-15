@@ -8,7 +8,7 @@ Appen hanterar ICC-profiler (`.icc` och `.icm`) i version 2 och 4. Andra filtype
 
 1. Välj **Open ICC…** (eller ⌘O) och välj en profil.
 2. Ändra **Internal profile name** och/eller **Copyright**.
-3. Välj **Save Copy…**. Dialogen föreslår ett filnamn som bygger på profilnamnet, i samma mapp som källfilen.
+3. Välj **Save Copy…**. Dialogen föreslår ett filnamn som bygger på profilnamnet, i den senast använda sparmappen.
 
 Det interna profilnamnet är det namn som program som Photoshop, Lightroom och ColorSync-verktyget visar. Det är oberoende av filnamnet.
 
@@ -46,6 +46,10 @@ Profil-ID är en MD5-summa över profilen som lagras i huvudet.
 
 - **Version 4:** räknas alltid om.
 - **Version 2:** räknas om om profilen redan har ett ID. Är fältet tomt lämnas det tomt.
+
+## Öppnings- och sparmappar
+
+**Open ICC…** börjar på skrivbordet och minns därefter den senast öppnade profilmappen. **Save Copy…** börjar i källmappen första gången. Därefter öppnas den senast använda sparmappen. Appen minns mapparna när du startar om den.
 
 ## Spara
 

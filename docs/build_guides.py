@@ -12,7 +12,7 @@ from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer
 
 ROOT = Path(__file__).resolve().parent
 REPO = 'https://github.com/chto0703009/ICCProfileEditor'
-VERSION = '1.0.2'
+VERSION = '1.0.3'
 ICON = ROOT.parent / 'resources/editor-header.png'
 GUIDES = {
     'SV': (
@@ -22,6 +22,7 @@ GUIDES = {
             ('Installera', 'Öppna DMG-filen för Apple Silicon och dra ICC Profile Editor till Program. Mata ut skivavbilden och öppna appen från Program.'),
             ('Välj profil', 'Klicka på <b>Open ICC…</b> eller tryck på Kommando-O. Välj en fil med ändelsen .icc eller .icm.'),
             ('Redigera och spara', 'Ändra <b>Internal profile name</b> eller <b>Copyright</b>. Det interna namnet visas i många profillistor och är oberoende av filnamnet. Klicka på <b>Save Copy…</b> och välj ett nytt filnamn. Appen skapar en kopia och bevarar originalet, färgtabellerna och övriga ICC-taggar.'),
+            ('Senast använda mappar', 'Filväljaren börjar på skrivbordet. Appen minns senaste profilmapp och sparmapp mellan starter. Första kopian föreslås i profilmappen.'),
             ('Text i ICC v2 och v4', 'Ny copyrighttext i ICC v2 måste använda ASCII. Skriv till exempel (C) i stället för ©. Befintlig copyright bevaras när du lämnar fältet oförändrat. I ICC v4 uppdateras profilnamnets språkposter till det namn du anger.'),
         ),
         'Ladda ned appen', 'Teknisk dokumentation',
@@ -33,6 +34,7 @@ GUIDES = {
             ('Install', 'Open the Apple Silicon disk image and drag ICC Profile Editor to Applications. Eject the disk image and open the app from Applications.'),
             ('Choose a profile', 'Click <b>Open ICC…</b> or press Command-O. Choose an .icc or .icm file.'),
             ('Edit and save', 'Change <b>Internal profile name</b> or <b>Copyright</b>. The internal name appears in many profile lists and is independent of the filename. Click <b>Save Copy…</b> and choose a new filename. The app creates a copy and preserves the source file, colour tables and other ICC tags.'),
+            ('Recent folders', 'The file picker starts on the Desktop. The app remembers your last profile folder and your last save folder between launches. The first copy defaults to the profile folder.'),
             ('Text in ICC v2 and v4', 'New copyright text in ICC v2 must use ASCII. For example, use (C) instead of ©. Existing copyright is preserved when you leave the field unchanged. In ICC v4, all language entries for the profile name are updated to the name you enter.'),
         ),
         'Download the app', 'Technical documentation (Swedish)',

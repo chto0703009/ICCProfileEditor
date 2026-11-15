@@ -10,6 +10,8 @@ import tempfile
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+from dialog_locations import DialogLocations
+
 
 def uint32(data, offset):
     return struct.unpack_from(">I", data, offset)[0]
@@ -194,6 +196,7 @@ def save_copy(destination, content):
 class Editor:
     def __init__(self, root):
         self.root = root
+        self.locations = DialogLocations("ICC Profile Editor")
         self.source = None
         self.original = b""
         self.name = tk.StringVar()
@@ -227,7 +230,10 @@ class Editor:
         root.bind("<Command-o>", lambda _: self.open_profile())
 
     def open_profile(self):
-        path = filedialog.askopenfilename(parent=self.root, title="Open ICC profile", filetypes=[("ICC profiles", ("*.icc", "*.icm"))])
+        path = filedialog.askopenfilename(
+            parent=self.root, title="Open ICC profile", initialdir=self.locations.directory("icc"),
+            filetypes=[("ICC profiles", ("*.icc", "*.icm"))],
+        )
         if not path:
             return
         try:
@@ -239,6 +245,7 @@ class Editor:
         except (OSError, ValueError) as error:
             messagebox.showerror("Could not open profile", str(error), parent=self.root)
             return
+        self.locations.remember("icc", path, opened=True)
         self.source, self.original = source, data
         self.source_label.set(f"{source.name}  •  ICC v{data[8]}")
         self.name_entry.configure(state="normal")
@@ -256,13 +263,14 @@ class Editor:
             content = edit_profile(self.original, name, self.copyright.get("1.0", "end-1c"))
             stem = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", name).strip(". ") or "ICC Profile"
             extension = self.source.suffix
-            suggested = self.source.with_name(stem + extension)
+            folder = self.locations.save_directory()
+            suggested = folder / (stem + extension)
             suffix = 1
             while suggested.exists():
-                suggested = self.source.with_name(f"{stem}_{suffix}{extension}")
+                suggested = folder / f"{stem}_{suffix}{extension}"
                 suffix += 1
             path = filedialog.asksaveasfilename(
-                parent=self.root, title="Save ICC copy", initialdir=self.source.parent, initialfile=suggested.name,
+                parent=self.root, title="Save ICC copy", initialdir=folder, initialfile=suggested.name,
                 defaultextension=extension, filetypes=[("ICC profiles", ("*.icc", "*.icm"))],
                 confirmoverwrite=False,  # existing files are never replaced, so do not offer it
             )
@@ -277,6 +285,7 @@ class Editor:
         except (OSError, ValueError) as error:
             messagebox.showerror("Could not save profile", str(error), parent=self.root)
         else:
+            self.locations.remember("save", destination)
             self.status.set(f"Saved as {destination.name}")
 
 

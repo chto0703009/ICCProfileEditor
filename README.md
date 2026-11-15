@@ -12,6 +12,8 @@ Utförlig beskrivning av hur appen läser, skriver och sparar profiler finns i [
 
 [Svensk PDF-guide](docs/ICC-Profile-Editor-SV.pdf) · [English PDF guide](docs/ICC-Profile-Editor-EN.pdf)
 
+**Open ICC…** börjar på skrivbordet. Appen minns senaste profilmapp och sparmapp mellan starter. Den första kopian föreslås i profilmappen.
+
 ## Kör källkoden
 
 Använd Python 3 med Tkinter.
