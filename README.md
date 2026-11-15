@@ -1,12 +1,14 @@
 # ICC Profile Editor
 
-Fristående macOS-app för att ändra det interna profilnamnet och copyright i ICC v2- och v4-profiler. Öppna en profil, ändra fälten och välj **Spara kopia**. Dialogen föreslår ett filnamn utifrån profilnamnet. Appen bevarar källfilen, färgtabellerna och övriga ICC-taggar.
+Fristående macOS-app för att ändra det interna profilnamnet och copyright i ICC v2- och v4-profiler. Öppna en profil, ändra fälten och välj **Save Copy**. Dialogen föreslår ett filnamn utifrån profilnamnet. Appen bevarar källfilen, färgtabellerna och övriga ICC-taggar.
 
 ## Installera på macOS
 
 Hämta DMG-filen från [Releases](https://github.com/chto0703009/ICCProfileEditor/releases/latest). Öppna den och dra **ICC Profile Editor** till **Program**. Appen är byggd för Apple Silicon och inkluderar Python och Tk.
 
 Utförlig beskrivning av hur appen läser, skriver och sparar profiler finns i [DOKUMENTATION.md](DOKUMENTATION.md).
+
+[Svensk PDF-guide](docs/ICC-Profile-Editor-SV.pdf) · [English PDF guide](docs/ICC-Profile-Editor-EN.pdf)
 
 ## Kör källkoden
 

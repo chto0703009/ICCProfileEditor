@@ -17,36 +17,36 @@ def uint32(data, offset):
 
 def profile_tags(data):
     if len(data) < 132 or data[36:40] != b"acsp" or not 132 <= uint32(data, 0) <= len(data):
-        raise ValueError("Filen har ett ogiltigt ICC-huvud eller fel filstorlek.")
+        raise ValueError("The ICC header or declared file size is invalid.")
     # Some writers pad the file beyond the declared profile size; ignore the padding.
     data = data[:uint32(data, 0)]
     if data[8] not in (2, 4):
-        raise ValueError("Appen stöder ICC version 2 och 4.")
+        raise ValueError("Only ICC versions 2 and 4 are supported.")
     count = uint32(data, 128)
     end = 132 + 12 * count
     if end > len(data):
-        raise ValueError("ICC-filens taggtabell är ofullständig.")
+        raise ValueError("The ICC tag table is incomplete.")
     tags = {}
     for index in range(count):
         tag, offset, size = struct.unpack_from(">4sII", data, 132 + 12 * index)
         if tag in tags or offset < end or size < 8 or offset + size > len(data):
-            raise ValueError("ICC-filen har en ogiltig tagg.")
+            raise ValueError("The ICC profile contains an invalid tag.")
         tags[tag] = data[offset:offset + size]
     return tags
 
 
 def translations(block):
     if len(block) < 16:
-        raise ValueError("Ofullständig flerspråkig ICC-text.")
+        raise ValueError("The multilingual ICC text is incomplete.")
     count, stride = struct.unpack_from(">II", block, 8)
     end = 16 + count * stride
     if stride < 12 or end > len(block):
-        raise ValueError("Ogiltig tabell för flerspråkig ICC-text.")
+        raise ValueError("The multilingual ICC text table is invalid.")
     records = []
     for index in range(count):
         locale, length, offset = struct.unpack_from(">4sII", block, 16 + index * stride)
         if length % 2 or offset < end or offset + length > len(block):
-            raise ValueError("Ogiltig position för ICC-text.")
+            raise ValueError("The ICC text offset or length is invalid.")
         records.append((locale, block[offset:offset + length]))
     return records
 
@@ -75,7 +75,7 @@ def read_text(block):
     if kind == b"desc" and len(block) >= 12:
         end = 12 + uint32(block, 8)
         if end > len(block):
-            raise ValueError("Profilnamnet är ofullständigt.")
+            raise ValueError("The profile description is incomplete.")
         if end + 8 <= len(block):
             count = uint32(block, end + 4)
             start = end + 8
@@ -88,7 +88,7 @@ def read_text(block):
                 if text:
                     return text
         return legacy_text(block[12:end])
-    raise ValueError("ICC-filen har ett textformat som appen inte stöder.")
+    raise ValueError("The ICC profile uses an unsupported text format.")
 
 
 def multilingual_text(old, value):
@@ -106,7 +106,7 @@ def multilingual_text(old, value):
 def edit_profile(data, name, copyright_text):
     name = name.strip()
     if not name or "\0" in name or "\0" in copyright_text:
-        raise ValueError("Ange ett profilnamn. Texten får inte innehålla nolltecken.")
+        raise ValueError("Enter a profile name. Text cannot contain null characters.")
     tags = profile_tags(data)
     for tag, value in ((b"desc", name), (b"cprt", copyright_text)):
         old = tags.get(tag, b"")
@@ -130,7 +130,7 @@ def edit_profile(data, name, copyright_text):
                 encoded = value.encode("ascii")
             except UnicodeEncodeError as error:
                 raise ValueError(
-                    f"ICC v2 kräver ASCII i copyright. Byt ut tecknet ”{value[error.start]}” (t.ex. © mot (C))."
+                    f"ICC v2 copyright must use ASCII. Replace the character “{value[error.start]}” (for example, use (C) instead of ©)."
                 ) from None
             tags[tag] = b"text" + bytes(4) + encoded + b"\0"
 
@@ -179,7 +179,7 @@ def save_copy(destination, content):
             os.fsync(stream.fileno())
             stream.close()
             if temporary.read_bytes() != content:
-                raise OSError("Den sparade filen kunde inte verifieras.")
+                raise OSError("The saved file could not be verified.")
             try:
                 os.link(temporary, destination)
             except FileExistsError:
@@ -197,7 +197,7 @@ class Editor:
         self.source = None
         self.original = b""
         self.name = tk.StringVar()
-        self.source_label = tk.StringVar(value="Ingen profil vald")
+        self.source_label = tk.StringVar(value="No profile selected")
         self.status = tk.StringVar()
         root.title("ICC Profile Editor")
         root.minsize(550, 340)
@@ -206,20 +206,20 @@ class Editor:
         frame.columnconfigure(0, weight=1)
         frame.rowconfigure(4, weight=1)
         ttk.Label(frame, textvariable=self.source_label, wraplength=435).grid(row=0, column=0, sticky="w")
-        ttk.Button(frame, text="Öppna ICC…", command=self.open_profile).grid(row=0, column=1, padx=(10, 0))
-        ttk.Label(frame, text="Internt profilnamn").grid(row=1, column=0, sticky="w", pady=(18, 4))
+        ttk.Button(frame, text="Open ICC…", command=self.open_profile).grid(row=0, column=1, padx=(10, 0))
+        ttk.Label(frame, text="Internal profile name").grid(row=1, column=0, sticky="w", pady=(18, 4))
         self.name_entry = ttk.Entry(frame, textvariable=self.name, state="disabled")
         self.name_entry.grid(row=2, column=0, columnspan=2, sticky="ew")
         ttk.Label(frame, text="Copyright").grid(row=3, column=0, sticky="w", pady=(14, 4))
         self.copyright = tk.Text(frame, height=4, width=55, wrap="word", state="disabled")
         self.copyright.grid(row=4, column=0, columnspan=2, sticky="nsew")
         ttk.Label(frame, textvariable=self.status, wraplength=500).grid(row=5, column=0, columnspan=2, sticky="w", pady=(10, 0))
-        self.save_button = ttk.Button(frame, text="Spara kopia…", command=self.save_profile, state="disabled")
+        self.save_button = ttk.Button(frame, text="Save Copy…", command=self.save_profile, state="disabled")
         self.save_button.grid(row=6, column=0, columnspan=2, sticky="e", pady=(12, 0))
         root.bind("<Command-o>", lambda _: self.open_profile())
 
     def open_profile(self):
-        path = filedialog.askopenfilename(parent=self.root, filetypes=[("ICC-profiler", ("*.icc", "*.icm"))])
+        path = filedialog.askopenfilename(parent=self.root, title="Open ICC profile", filetypes=[("ICC profiles", ("*.icc", "*.icm"))])
         if not path:
             return
         try:
@@ -229,7 +229,7 @@ class Editor:
             name = read_text(tags.get(b"desc", b""))
             copyright_text = read_text(tags.get(b"cprt", b""))
         except (OSError, ValueError) as error:
-            messagebox.showerror("Kunde inte öppna profilen", str(error), parent=self.root)
+            messagebox.showerror("Could not open profile", str(error), parent=self.root)
             return
         self.source, self.original = source, data
         self.source_label.set(f"{source.name}  •  ICC v{data[8]}")
@@ -246,7 +246,7 @@ class Editor:
         try:
             name = self.name.get().strip()
             content = edit_profile(self.original, name, self.copyright.get("1.0", "end-1c"))
-            stem = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", name).strip(". ") or "ICC-profil"
+            stem = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", name).strip(". ") or "ICC Profile"
             extension = self.source.suffix
             suggested = self.source.with_name(stem + extension)
             suffix = 1
@@ -254,22 +254,22 @@ class Editor:
                 suggested = self.source.with_name(f"{stem}_{suffix}{extension}")
                 suffix += 1
             path = filedialog.asksaveasfilename(
-                parent=self.root, initialdir=self.source.parent, initialfile=suggested.name,
-                defaultextension=extension, filetypes=[("ICC-profiler", ("*.icc", "*.icm"))],
+                parent=self.root, title="Save ICC copy", initialdir=self.source.parent, initialfile=suggested.name,
+                defaultextension=extension, filetypes=[("ICC profiles", ("*.icc", "*.icm"))],
                 confirmoverwrite=False,  # existing files are never replaced, so do not offer it
             )
             if not path:
                 return
             destination = Path(path)
             if destination.suffix.lower() not in (".icc", ".icm"):
-                raise ValueError("Använd filändelsen .icc eller .icm.")
+                raise ValueError("Use the .icc or .icm file extension.")
             save_copy(destination, content)
         except FileExistsError:
-            messagebox.showerror("Filen finns redan", "Välj ett nytt filnamn för kopian.", parent=self.root)
+            messagebox.showerror("File already exists", "Choose a new filename for the copy.", parent=self.root)
         except (OSError, ValueError) as error:
-            messagebox.showerror("Kunde inte spara profilen", str(error), parent=self.root)
+            messagebox.showerror("Could not save profile", str(error), parent=self.root)
         else:
-            self.status.set(f"Sparad som {destination.name}")
+            self.status.set(f"Saved as {destination.name}")
 
 
 def main():

@@ -6,9 +6,9 @@ Appen hanterar ICC-profiler (`.icc` och `.icm`) i version 2 och 4. Andra filtype
 
 ## Använda appen
 
-1. Välj **Öppna ICC…** (eller ⌘O) och välj en profil.
-2. Ändra **Internt profilnamn** och/eller **Copyright**.
-3. Välj **Spara kopia…**. Dialogen föreslår ett filnamn som bygger på profilnamnet, i samma mapp som källfilen.
+1. Välj **Open ICC…** (eller ⌘O) och välj en profil.
+2. Ändra **Internal profile name** och/eller **Copyright**.
+3. Välj **Save Copy…**. Dialogen föreslår ett filnamn som bygger på profilnamnet, i samma mapp som källfilen.
 
 Det interna profilnamnet är det namn som program som Photoshop, Lightroom och ColorSync-verktyget visar. Det är oberoende av filnamnet.
 
