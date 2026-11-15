@@ -34,6 +34,10 @@ python3 -m venv .venv
 
 Appen byggs i `dist/`.
 
+## ICC Profile Analyzer
+
+För att jämföra ICC-profiler, granska kurvor och exportera en analysrapport, se [ICC Profile Analyzer](https://github.com/chto0703009/ICCProfileAnalyzer) och dess [DMG och PDF-guider](https://github.com/chto0703009/ICCProfileAnalyzer/releases/latest).
+
 ## Licens
 
 Källkoden är licensierad under [GNU GPL v3 eller senare](LICENSE).
