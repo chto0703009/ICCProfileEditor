@@ -1,5 +1,7 @@
 # ICC Profile Editor
 
+<img src="resources/editor-header.png" alt="ICC Profile Editor app icon" width="72">
+
 Fristående macOS-app för att ändra det interna profilnamnet och copyright i ICC v2- och v4-profiler. Öppna en profil, ändra fälten och välj **Save Copy**. Dialogen föreslår ett filnamn utifrån profilnamnet. Appen bevarar källfilen, färgtabellerna och övriga ICC-taggar.
 
 ## Installera på macOS
@@ -25,9 +27,9 @@ Använd Python 3 med Tkinter. Skapa en separat virtuell miljö för bygget.
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-build.txt
-.venv/bin/python -m PyInstaller --windowed --name 'ICC Profile Editor' \
+.venv/bin/python -m PyInstaller --windowed --name 'ICC Profile Editor' --icon resources/Editor.icns \
   --osx-bundle-identifier se.borgasundsfotografiska.iccprofileeditor \
-  icc_profile_editor.py
+  --add-data resources:resources icc_profile_editor.py
 ```
 
 Appen byggs i `dist/`.

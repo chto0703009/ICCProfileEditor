@@ -8,11 +8,12 @@ from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer
 
 ROOT = Path(__file__).resolve().parent
 REPO = 'https://github.com/chto0703009/ICCProfileEditor'
-VERSION = '1.0.1'
+VERSION = '1.0.2'
+ICON = ROOT.parent / 'resources/editor-header.png'
 GUIDES = {
     'SV': (
         'Användarguide',
@@ -59,7 +60,8 @@ def build():
         document = SimpleDocTemplate(str(path), pagesize=A4, leftMargin=23*mm, rightMargin=23*mm,
                                      topMargin=23*mm, bottomMargin=23*mm,
                                      title=f'ICC Profile Editor | {label}', author='Christer Törnkvist')
-        story = [paragraph(f'{label.upper()} &nbsp; · &nbsp; {VERSION}', 'tag'), Spacer(1, 5*mm),
+        story = [Image(str(ICON), width=13*mm, height=13*mm, hAlign='LEFT'), Spacer(1, 3*mm),
+                 paragraph(f'{label.upper()} &nbsp; · &nbsp; {VERSION}', 'tag'), Spacer(1, 5*mm),
                  paragraph('ICC Profile Editor', 'title'), paragraph(lead, 'lead')]
         for name, content in sections:
             story.extend((paragraph(name, 'heading'), paragraph(content, 'body')))
