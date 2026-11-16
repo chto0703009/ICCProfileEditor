@@ -12,14 +12,14 @@ from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer
 
 ROOT = Path(__file__).resolve().parent
 REPO = 'https://github.com/chto0703009/ICCProfileEditor'
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 ICON = ROOT.parent / 'resources/editor-header.png'
 GUIDES = {
     'SV': (
         'Användarguide',
         'Ändra profilnamn och copyright i ICC v2 och v4 på macOS.',
         (
-            ('Installera', 'Öppna DMG-filen för Apple Silicon och dra ICC Profile Editor till Program. Mata ut skivavbilden och öppna appen från Program.'),
+            ('Installera', 'Samma DMG-fil fungerar på både Apple Silicon och Intel. Öppna DMG-filen och dra ICC Profile Editor till Program. Mata ut skivavbilden och öppna appen från Program.'),
             ('Välj profil', 'Klicka på <b>Open ICC…</b> eller tryck på Kommando-O. Välj en fil med ändelsen .icc eller .icm.'),
             ('Redigera och spara', 'Ändra <b>Internal profile name</b> eller <b>Copyright</b>. Det interna namnet visas i många profillistor och är oberoende av filnamnet. Klicka på <b>Save Copy…</b> och välj ett nytt filnamn. Appen skapar en kopia och bevarar originalet, färgtabellerna och övriga ICC-taggar.'),
             ('Senast använda mappar', 'Filväljaren börjar på skrivbordet. Appen minns senaste profilmapp och sparmapp mellan starter. Första kopian föreslås i profilmappen.'),
@@ -31,7 +31,7 @@ GUIDES = {
         'User guide',
         'Edit profile names and copyright in ICC v2 and v4 profiles on macOS.',
         (
-            ('Install', 'Open the Apple Silicon disk image and drag ICC Profile Editor to Applications. Eject the disk image and open the app from Applications.'),
+            ('Install', 'The same disk image works on Apple Silicon and Intel Macs. Open it and drag ICC Profile Editor to Applications. Eject the disk image and open the app from Applications.'),
             ('Choose a profile', 'Click <b>Open ICC…</b> or press Command-O. Choose an .icc or .icm file.'),
             ('Edit and save', 'Change <b>Internal profile name</b> or <b>Copyright</b>. The internal name appears in many profile lists and is independent of the filename. Click <b>Save Copy…</b> and choose a new filename. The app creates a copy and preserves the source file, colour tables and other ICC tags.'),
             ('Recent folders', 'The file picker starts on the Desktop. The app remembers your last profile folder and your last save folder between launches. The first copy defaults to the profile folder.'),

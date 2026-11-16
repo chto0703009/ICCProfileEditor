@@ -2,29 +2,29 @@
 
 <img src="resources/editor-header.png" alt="ICC Profile Editor app icon" width="72">
 
-Fristående macOS-app för att ändra det interna profilnamnet och copyright i ICC v2- och v4-profiler. Öppna en profil, ändra fälten och välj **Save Copy**. Dialogen föreslår ett filnamn utifrån profilnamnet. Appen bevarar källfilen, färgtabellerna och övriga ICC-taggar.
+A standalone macOS app for editing the internal profile name and copyright in ICC v2 and v4 profiles. Open a profile, edit the fields, and choose **Save Copy**. The app suggests a filename based on the profile name and preserves the source file, color tables, and other ICC tags.
 
-## Installera på macOS
+## Install on macOS
 
-Hämta DMG-filen från [Releases](https://github.com/chto0703009/ICCProfileEditor/releases/latest). Öppna den och dra **ICC Profile Editor** till **Program**. Appen är byggd för Apple Silicon och inkluderar Python och Tk.
+Download the universal disk image from [Releases](https://github.com/chto0703009/ICCProfileEditor/releases/latest). It supports both Apple Silicon and Intel Macs and includes Python and Tcl/Tk. Open the disk image and drag **ICC Profile Editor** to **Applications**.
 
-Utförlig beskrivning av hur appen läser, skriver och sparar profiler finns i [DOKUMENTATION.md](DOKUMENTATION.md).
+For details on how the app reads, edits, and saves profiles, see the [technical documentation in Swedish](DOKUMENTATION.md).
 
-[Svensk PDF-guide](docs/ICC-Profile-Editor-SV.pdf) · [English PDF guide](docs/ICC-Profile-Editor-EN.pdf)
+[Swedish PDF guide](docs/ICC-Profile-Editor-SV.pdf) · [English PDF guide](docs/ICC-Profile-Editor-EN.pdf)
 
-**Open ICC…** börjar på skrivbordet. Appen minns senaste profilmapp och sparmapp mellan starter. Den första kopian föreslås i profilmappen.
+**Open ICC…** starts on the Desktop. The app remembers the last profile and save folders between launches. The first copy defaults to the profile folder.
 
-## Kör källkoden
+## Run from source
 
-Använd Python 3 med Tkinter.
+Use Python 3 with Tkinter.
 
 ```sh
 python3 icc_profile_editor.py
 ```
 
-## Bygg macOS-appen
+## Build the macOS app
 
-Använd Python 3 med Tkinter. Skapa en separat virtuell miljö för bygget.
+Use Python 3 with Tkinter. Create a separate virtual environment for the build. For a universal build, use a universal2 Python distribution and pass `--target-arch universal2` to PyInstaller.
 
 ```sh
 python3 -m venv .venv
@@ -34,12 +34,12 @@ python3 -m venv .venv
   --add-data resources:resources icc_profile_editor.py
 ```
 
-Appen byggs i `dist/`.
+The app is built in `dist/`.
 
 ## ICC Profile Analyzer
 
-För att jämföra ICC-profiler, granska kurvor och exportera en analysrapport, se [ICC Profile Analyzer](https://github.com/chto0703009/ICCProfileAnalyzer) och dess [DMG och PDF-guider](https://github.com/chto0703009/ICCProfileAnalyzer/releases/latest).
+To compare profiles, inspect curves, or export analysis reports, see [ICC Profile Analyzer](https://github.com/chto0703009/ICCProfileAnalyzer) and its [downloads and guides](https://github.com/chto0703009/ICCProfileAnalyzer/releases/latest). Editor uses the Python standard library and Tkinter at runtime.
 
-## Licens
+## License
 
-Källkoden är licensierad under [GNU GPL v3 eller senare](LICENSE).
+The source code is licensed under [GNU GPL v3 or later](LICENSE).

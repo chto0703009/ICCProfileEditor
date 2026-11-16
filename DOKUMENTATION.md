@@ -77,7 +77,7 @@ En fil som är längre än den angivna storleken öppnas. De överskjutande byte
 - Översättningar i version 4-profiler kan inte redigeras var för sig.
 - I version 2-profiler bevaras inte ScriptCode-delen av `desc` när namnet skrivs om.
 - ICC version 5 (iccMAX) stöds inte.
-- Den paketerade appen är byggd för Apple Silicon.
+- Den universella macOS-appen stöder både Apple Silicon och Intel. Den inkluderar Python och Tcl/Tk.
 
 ## Kodens uppbyggnad
 
