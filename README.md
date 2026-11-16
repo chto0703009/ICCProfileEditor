@@ -8,6 +8,8 @@ A standalone macOS app for editing the internal profile name and copyright in IC
 
 Download the universal disk image from [Releases](https://github.com/chto0703009/ICCProfileEditor/releases/latest). It supports both Apple Silicon and Intel Macs and includes Python and Tcl/Tk. Open the disk image and drag **ICC Profile Editor** to **Applications**.
 
+**If macOS blocks the app because the developer cannot be verified**, continue only if you trust the download. The app is not Apple-notarized. After trying to open it, go to **Apple menu → System Settings → Privacy & Security**, scroll to **Security**, choose **Open Anyway** for ICC Profile Editor, and confirm. See [Apple’s instructions](https://support.apple.com/en-us/102445).
+
 For details on how the app reads, edits, and saves profiles, see the [technical documentation in Swedish](DOKUMENTATION.md).
 
 [Swedish PDF guide](docs/ICC-Profile-Editor-SV.pdf) · [English PDF guide](docs/ICC-Profile-Editor-EN.pdf)
